@@ -1,9 +1,12 @@
 #classer les differentes proteines presentes dans le fichier xml en fonctions des publications en commun. 
 
+from re import *
+import string
+
 from Bio import SeqIO
 fic = open("DataWareHouse.csv", "w")
 fic.write("Identifiant| Tissular et blabla \n")
-fichier = open("/net/stockage/bioinfoP2015/Datamining/Projets/uniprot-reviewed_homo-sapiens.xml", "rU")
+fichier = open("/Users/muse_om92/Documents/M2/ProjetDataMining/uniprot-reviewed_homo-sapiens.xml", "rU")
 
 for record in SeqIO.parse(fichier, "uniprot-xml"):
 	ListTissue = []
@@ -34,13 +37,29 @@ for record in SeqIO.parse(fichier, "uniprot-xml"):
 	else :
 		inter = []
 
+	# critere nature de la chaine proteique:
+	typeChain = record.features[]
+	#for i in range(len(elemTC)) :
+	#	blou = elemTC[0]
+	#print blou
 
-
-
-
+	#nom principal de la proteine
+	description = record.description
+	elemDecsrpt = description.split(" ")
+	descrpt = ''
+	if len(elemDecsrpt) >= 3 :
+		for i in range(3) :
+			#if search(r"^*[O-9][A-Z]*", elemDecsrpt[i]) :
+			#	pass
+			#else :
+			descrpt += elemDecsrpt[i]
+			descrpt += ' '
+	#print descrpt
 
 
 	fic.write(name + " | " + str(ListTissue)+ " | " + str(loca_sub) + " | " + str(interactant) + "\n")
 
 fichier.close()
 fic.close()
+
+
