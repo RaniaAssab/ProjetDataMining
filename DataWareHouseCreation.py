@@ -4,8 +4,14 @@ from re import *
 import string
 
 from Bio import SeqIO
+
+print "Data WareHouse Creation"
+
 fic = open("DataWareHouse.csv", "w")
-fic.write("Identifiant| Tissular et blabla \n")
+
+print "Pending"
+
+fic.write("Identifiant| Tissular Location | Subcellular Location | Interactans | Chain Nature | Family name \n")
 fichier = open("/Users/muse_om92/Documents/M2/ProjetDataMining/uniprot-reviewed_homo-sapiens.xml", "rU")
 
 for record in SeqIO.parse(fichier, "uniprot-xml"):
@@ -38,28 +44,29 @@ for record in SeqIO.parse(fichier, "uniprot-xml"):
 		inter = []
 
 	# critere nature de la chaine proteique:
-	typeChain = record.features[]
-	#for i in range(len(elemTC)) :
-	#	blou = elemTC[0]
-	#print blou
+	typeChain = record.features[0].type
+	
 
 	#nom principal de la proteine
 	description = record.description
 	elemDecsrpt = description.split(" ")
 	descrpt = ''
+
 	if len(elemDecsrpt) >= 3 :
 		for i in range(3) :
-			#if search(r"^*[O-9][A-Z]*", elemDecsrpt[i]) :
-			#	pass
-			#else :
-			descrpt += elemDecsrpt[i]
-			descrpt += ' '
-	#print descrpt
+			expression1 = r"^[0-9][A-Z]$"
+			expression2 = r"^[0-9]$"
+			if search(expression1, elemDecsrpt[i]) or search(expression2, elemDecsrpt[i]) :
+				pass
+			else :
+				descrpt += elemDecsrpt[i]
+				descrpt += ' '
 
 
-	fic.write(name + " | " + str(ListTissue)+ " | " + str(loca_sub) + " | " + str(interactant) + "\n")
-
+	fic.write(name + " | " + str(ListTissue)+ " | " + str(loca_sub) + " | " + str(interactant) + " | " + str(descrpt) + " | " + str(typeChain) + "\n")
 fichier.close()
 fic.close()
+
+print "Done!"
 
 
