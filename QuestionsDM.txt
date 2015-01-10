@@ -1,0 +1,11 @@
+Projet :
+- enlever les doublons dans la liste du DataWareHouse
+- Algo à appliquer : DIANA ? k-means ?
+- remise : toutes nos protéines se retrouvent dans tous les cluster ?
+- à partir du DWH, comment on fait le lien avec le clustering ? Code ?
+- distance entre le parent et le fils, comment attribuer les valeurs d1, d2 ...?
+
+Réponse prof :
+Si vous prenez DIANA, au départ il y a un cluster unique, puis à chaque division le nombre de clusters augmente.
+Effectivement, tous les tirages ne doivent pas être avec remise. N'oubliez pas qu'à la fin la distance intra cluster doit être faible et forte entre les clusters (si les mêmes protéines se retrouvent dans tous les clusters, elle devient nulle !).
+Pour la distance, il ne s'agit pas de distance entre "père" et "fils" mais entre protéines ou entre clusters du même niveau. 
