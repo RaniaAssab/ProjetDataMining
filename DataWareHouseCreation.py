@@ -16,7 +16,7 @@ fic = open("DataWareHouse.csv", "w")
 print "Pending"
 
 fic.write("Identifiant| Tissular Location | Subcellular Location | Interactans | Chain Nature | Family name \n")
-fichier = open("/Users/muse_om92/Documents/M2/ProjetDataMining/uniprot-reviewed_homo-sapiens.xml", "rU")
+fichier = open("/users/Marjorie/Desktop/Master/M2 2014:2015/Data Mining/ProjetDataMining/uniprot-reviewed_homo-sapiens.xml", "rU")
 
 for record in SeqIO.parse(fichier, "uniprot-xml"):
 	ListTissue = []
