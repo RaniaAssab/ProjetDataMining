@@ -1,0 +1,15 @@
+critères :
+
+références
+titre de l'article : <title>
+auteurs : <authorList> --> le dernier
+tissu : <tissue>
+
+comment 
+interaction : <id> <Label> dans la balise interactant
+localistion subcell : <location> dans la balise subcellular location
+
+feature 
+type chaine : <feature type="chain" (description="14-3-3 protein beta/alpha" id="PRO_0000367900") >
+nom complet : <fullName> dans la balise protein
+
