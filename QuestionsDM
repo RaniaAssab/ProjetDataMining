@@ -1,7 +1,0 @@
-Projet :
-- enlever les doublons dans la liste du DataWareHouse
-- Algo à appliquer : DIANA ? k-means ?
-- remise : toutes nos protéines se retrouvent dans tous les cluster ?
-- à partir du DWH, comment on fait le lien avec le clustering ? Code ?
-- distance entre le parent et le fils, comment attribuer les valeurs d1, d2 ...?
-- 
