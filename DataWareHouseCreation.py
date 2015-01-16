@@ -15,8 +15,8 @@ fic = open("DataWareHouse.csv", "w")
 
 print "Pending"
 
-fic.write("Identifiant| Tissular Location | Subcellular Location | Interactans | Chain Nature | Family name \n")
-fichier = open("/users/Marjorie/Desktop/Master/M2 2014:2015/Data Mining/ProjetDataMining/uniprot-reviewed_homo-sapiens.xml", "rU")
+fic.write("Identifiant| Tissular Location | Subcellular Location | Interactans | Family name | Chain Nature \n")
+fichier = open("/autofs/netapp/account/cremi/ranassab/espaces/travail/uniprot-reviewed_homo-sapiens.xml", "rU")
 
 for record in SeqIO.parse(fichier, "uniprot-xml"):
 	ListTissue = []
@@ -77,13 +77,3 @@ print "Done!"
 ###############################################################################################
 ###############################################################################################
 ###############################################################################################
-
-
-###############################################################################################
-#####################################  DATAMINING #############################################
-###############################################################################################
-
-#Data warehouse treatment
-
-fic = open("DataWareHouse.csv", "r")
-
