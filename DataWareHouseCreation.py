@@ -60,7 +60,9 @@ for record in SeqIO.parse(fichier, "uniprot-xml"):
 		for i in range(3) :
 			expression1 = r"^[0-9][A-Z]$"
 			expression2 = r"^[0-9]$"
-			if search(expression1, elemDecsrpt[i]) or search(expression2, elemDecsrpt[i]) :
+			expression3 = r"^[A-Z][0-9]$"
+			expression4 = r"^[A-Z]$"
+			if search(expression1, elemDecsrpt[i]) or search(expression2, elemDecsrpt[i]) or search(expression3, elemDecsrpt[i]) or search(expression4, elemDecsrpt[i]) :
 				pass
 			else :
 				descrpt += elemDecsrpt[i]
