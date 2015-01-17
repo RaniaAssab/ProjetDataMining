@@ -86,21 +86,21 @@ for i in range(len(listFamilyName)) :
 ##################################
 ############AJOUT DE CODE LEA #########
 ##################################
-critere1 = {}
-critere2 = []
+critere_CN = {}
+critere_FN = []
 for id_prot in DProt :
-	if DProt[id_prot]['chainNature'] not in critere1.keys() :
-		critere1[DProt[id_prot]['chainNature']] = {}				# on initialise un dico vide pour chaque valeur de ChaineNature
-	critere1[DProt[id_prot]['chainNature']][id_prot] = DProt[id_prot]	# on ajoute la proteine (definit par son identifiant) dans le dico correspondant a sa valeur de chaineNature
-for chainNat in critere1 :
-	critere2_interm = {}			# initialisation d'un dico intermediaire pour chaque cluster deja cree (chaque chaineNature)
-	for id_prot in critere1[chainNat] :
-		if critere1[chainNat][id_prot]['familyName'] not in critere2_interm.keys() :
-			critere2_interm[critere1[chainNat][id_prot]['familyName']] = {}
-		critere2_interm[critere1[chainNat][id_prot]['familyName']][id_prot] = critere1[chainNat][id_prot] 	# meme principe : ajout de la proteine (def par son identifiant) dnas le dico correspondant a sa valeur de familyname
-	critere2.append(critere2_interm)	# ajout du dico intermediaire dans une liste, a la fin de cette etape, chaque element de la liste correspond a un cluster apres analyse des 2 premiers criteres
+	if DProt[id_prot]['chainNature'] not in critere_CN.keys() :
+		critere_CN[DProt[id_prot]['chainNature']] = []				# on initialise une liste vide pour chaque valeur de ChaineNature
+	critere_CN[DProt[id_prot]['chainNature']].append(id_prot)			# on ajoute la proteine (definit par son identifiant) dans le dico correspondant a sa valeur de chaineNature
+for chainNat in critere_CN :
+	critere_FN_interm = {}			# initialisation d'un dico intermediaire pour chaque cluster deja cree (chaque chaineNature)
+	for id_prot in critere_CN[chainNat] :
+		if DProt[id_prot]['familyName'] not in critere_FN_interm.keys() :
+			critere_FN_interm[DProt[id_prot]['familyName']] = []
+		critere_FN_interm[DProt[id_prot]['familyName']].append(id_prot) 	# meme principe : ajout de l'id de la prot dans le dico correspondant a sa valeur de familyname
+	critere_FN.append(critere_FN_interm)	# ajout du dico intermediaire dans une liste, a la fin de cette etape, chaque element de la liste correspond a un cluster apres analyse des 2 premiers criteres
 # test d'affichage des clusters
-for dic in critere2 :
+for dic in critere_FN :
 	for el in dic :
 		print el + '\n'  + str(dic[el]) + '\n'
 
