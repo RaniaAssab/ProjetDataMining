@@ -125,9 +125,9 @@ DProt = chargement_DWH()
 critere_CN = {}
 critere_FN = []
 for id_prot in DProt :
-	if DProt[id_prot]['chainNature'] not in critere_CN.keys() :
-		critere_CN[DProt[id_prot]['chainNature']] = []				# on initialise une liste vide pour chaque valeur de ChaineNature
-	critere_CN[DProt[id_prot]['chainNature']].append(id_prot)			# on ajoute la proteine (definit par son identifiant) dans le dico correspondant a sa valeur de chaineNature
+    if DProt[id_prot]['chainNature'] not in critere_CN.keys() :
+        critere_CN[DProt[id_prot]['chainNature']] = []                # on initialise une liste vide pour chaque valeur de ChaineNature
+    critere_CN[DProt[id_prot]['chainNature']].append(id_prot)            # on ajoute la proteine (definit par son identifiant) dans le dico correspondant a sa valeur de chaineNature
 
 # clustering en fonction de la localisation subcellulaire
 critere_SCL = {}
@@ -169,20 +169,20 @@ for chainNat in critere_TL :
         for j in range (len(critere_TL[chainNat][i])): # parcours clusters interractants
             for k in range (len(critere_TL[chainNat][i][j])): # parcours clusters tissulaires
                 critere_FP[chainNat][i][j][k]={}
-	            for id_prot in critere_TL[chainNat][i][j][k] :
-		            if DProt[id_prot]['familyName'] not in critere_FP[chainNat][i][j].keys() :
-			            critere_FP[chainNat][i][j][DProt[id_prot]['familyName']] = []
-		            critere_FP[chainNat][i][j][k][DProt[id_prot]['familyName']].append(id_prot) 	# meme principe : ajout de l'id de la prot dans le dico correspondant a sa valeur de familyname
+                for id_prot in critere_TL[chainNat][i][j][k] :
+                    if DProt[id_prot]['familyName'] not in critere_FP[chainNat][i][j].keys() :
+                        critere_FP[chainNat][i][j][DProt[id_prot]['familyName']] = []
+                    critere_FP[chainNat][i][j][k][DProt[id_prot]['familyName']].append(id_prot)     # meme principe : ajout de l'id de la prot dans le dico correspondant a sa valeur de familyname
 
 
 # test d'affichage des clusters
 for nature in critere_FP :
-	for loc_cel in nature :
+    for loc_cel in nature :
         for interactant in loc_cel :
             for loc_tissu in interactant :
                 for famille in loc_tissu :
                     for el in famille:
-		                print el
+                        print el
                     print "\n"
 
 fic.close()
