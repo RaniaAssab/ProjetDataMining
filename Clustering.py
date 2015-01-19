@@ -101,7 +101,8 @@ for chainNat in critere_CN :
 	critere_FN.append(critere_FN_interm)	# ajout du dico intermediaire dans une liste, a la fin de cette etape, chaque element de la liste correspond a un cluster apres analyse des 2 premiers criteres
 # test d'affichage des clusters
 for dic in critere_FN :
-	for el in dic :
-		print el + '\n'  + str(dic[el]) + '\n'
+	#for el in dic :
+	#	print el + '\n'  + str(dic[el]) + '\n'
+	print len(dic)
 
 fic.close()
