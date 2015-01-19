@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+from time import *
 ###############################################################################################
 #####################################  DATAMINING #############################################
 ###############################################################################################
@@ -132,52 +132,61 @@ for id_prot in DProt :
 print "\n clustering en fonction de la localisation subcellulaire"
 critere_SCL = {}
 for chainNat in critere_CN :
-    k=1
+    print "groupe ",chainNat
     if len(critere_CN[chainNat])/100 > 0:
         k = len(critere_CN[chainNat])/100 # fixé arbitrairement
-    print "groupe ",chainNat
-    liste_id = []
-    for id_prot in critere_CN[chainNat]:
-        liste_id.append(id_prot)
-    critere_SCL[chainNat] = CAH(k,DProt,"subcellularLocation",liste_id)
+        liste_id = []
+        for id_prot in critere_CN[chainNat]:
+            liste_id.append(id_prot)
+        critere_SCL[chainNat] = CAH(k,DProt,"subcellularLocation",liste_id)
+    else:
+        listTMP = []
+        listTMP.append(critere_CN[chainNat])       
+        critere_SCL[chainNat]=listTMP
 # vider critere_CN
 
 # clustering en fonction des interractants
 print "\n clustering en fonction des interractants"
 critere_I = {}
-k = 10 # fixé arbitrairement
 for chainNat in critere_SCL :
     critere_I[chainNat]=[]
     for i in range (len(critere_SCL[chainNat])): # parcours clusters subcellulaires
-        k=1
-        if len(critere_CN[chainNat])/10 > 0:
-            k = len(critere_CN[chainNat])/10 # fixé arbitrairement
-        liste_id = []
-        for id_prot in critere_SCL[chainNat][i]:
-            liste_id.append(id_prot)
-        critere_I[chainNat].append(CAH(k,DProt,"interactants",liste_id))
+        if len(critere_SCL[chainNat][i])/10 > 0:
+            k = len(critere_SCL[chainNat][i])/10 # fixé arbitrairement
+            liste_id = []
+            for id_prot in critere_SCL[chainNat][i]:
+                liste_id.append(id_prot)
+            critere_I[chainNat].append(CAH(k,DProt,"interactants",liste_id))
+        else:
+            listTMP = []
+            listTMP.append(critere_SCL[chainNat][i])       
+            critere_I[chainNat].append(listTMP)
 # vider critere_SCL
 
 #clustering en fonction de la localisation tissulaire
 print "clustering en fonction de la localisation tissulaire"
 critere_TL = {}
-k = 10 # fixé arbitrairement
 for chainNat in critere_I :
     critere_TL[chainNat]=[]
     for i in range (len(critere_I[chainNat])): #parcours clusters subcellulaires
         listeTMP=[]
         critere_TL[chainNat].append(listeTMP)
         for j in range (len(critere_I[chainNat][i])): # parcours clusters interractants
-            liste_id = []
-            for id_prot in critere_SCL[chainNat][i]:
-                liste_id.append(id_prot)
-            critere_TL[chainNat][i].append(CAH(k,DProt,"tissularLocation",liste_id))
+            if len(critere_I[chainNat][i][j])/10 > 0:
+                k = len(critere_I[chainNat][i][j])/10 # fixé arbitrairement
+                liste_id = []
+                for id_prot in critere_I[chainNat][i][j]:
+                    liste_id.append(id_prot)
+                critere_TL[chainNat][i].append(CAH(k,DProt,"tissularLocation",liste_id))
+            else:
+                listTMP = []
+                listTMP.append(critere_I[chainNat][i][j])       
+                critere_I[chainNat][i].append(listTMP)
 # vider critere_I
 
 #clustering en fonction de la famille protéique
 print "clustering en fonction de la famille protéique"
 critere_FP = {}
-k = 10 # fixé arbitrairement
 for chainNat in critere_TL :
     critere_FP[chainNat]=[]
     for i in range (len(critere_TL[chainNat])): #parcours clusters subcellulaires
@@ -193,14 +202,23 @@ for chainNat in critere_TL :
                     if DProt[id_prot]['familyName'] not in critere_FP[chainNat][i][j][k].keys() :
                         critere_FP[chainNat][i][j][k][DProt[id_prot]['familyName']]=[]
                     critere_FP[chainNat][i][j][k][DProt[id_prot]['familyName']].append(id_prot)     # meme principe : ajout de l'id de la prot dans le dico correspondant a sa valeur de familyname
+                if len(critere_FP[chainNat][i][j][k])==len(critere_TL[chainNat][i][j][k]):
+                    critere_FP[chainNat][i][j].append(dicoTMP)
+                    critere_FP[chainNat][i][j][k]["family"]=[]
+                    for id_prot in critere_TL[chainNat][i][j][k]:
+                        critere_FP[chainNat][i][j][k]["family"].append(id_prot)
 
+
+fch = open("ClustersFile.txt", "w")
+fch.write("Similar proteins groups \n")
 # test d'affichage des clusters
 for nature in critere_FP :
     for loc_cel in critere_FP[nature] :
         for interactant in loc_cel :
             for loc_tissu in interactant :
                 for famille in loc_tissu :
-                    print loc_tissu[famille]
-                print "\n"
-
-
+                    #print loc_tissu[famille]
+                    fch.write(str(loc_tissu[famille]))
+                #print "\n"
+                fch.write("\n")
+fch.close()
