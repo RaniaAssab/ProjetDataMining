@@ -15,8 +15,8 @@ fic = open("DataWareHouse.csv", "w")
 
 print "Pending"
 
-fic.write("Identifiant| Tissular Location | Subcellular Location | Interactans | Chain Nature | Family name \n")
-fichier = open("/users/Marjorie/Desktop/Master/M2 2014:2015/Data Mining/ProjetDataMining/uniprot-reviewed_homo-sapiens.xml", "rU")
+fic.write("Identifiant| Tissular Location | Subcellular Location | Interactans | Family name | Chain Nature \n")
+fichier = open("/autofs/netapp/account/cremi/ranassab/espaces/travail/uniprot-reviewed_homo-sapiens.xml", "rU")
 
 for record in SeqIO.parse(fichier, "uniprot-xml"):
 	ListTissue = []
@@ -60,7 +60,11 @@ for record in SeqIO.parse(fichier, "uniprot-xml"):
 		for i in range(3) :
 			expression1 = r"^[0-9][A-Z]$"
 			expression2 = r"^[0-9]$"
-			if search(expression1, elemDecsrpt[i]) or search(expression2, elemDecsrpt[i]) :
+			expression3 = r"^[A-Z][0-9]$"
+			expression4 = r"^[A-Z]$"
+			expression5 = r"^[0-9][0-9][.-][0-9]$"
+			expression6 = r"^[A-Z][0-9]$"
+			if search(expression1, elemDecsrpt[i]) or search(expression2, elemDecsrpt[i]) or search(expression3, elemDecsrpt[i]) or search(expression4, elemDecsrpt[i]) or search(expression5, elemDecsrpt[i]) or search(expression6, elemDecsrpt[i]):
 				pass
 			else :
 				descrpt += elemDecsrpt[i]
@@ -77,13 +81,3 @@ print "Done!"
 ###############################################################################################
 ###############################################################################################
 ###############################################################################################
-
-
-###############################################################################################
-#####################################  DATAMINING #############################################
-###############################################################################################
-
-#Data warehouse treatment
-
-fic = open("DataWareHouse.csv", "r")
-
