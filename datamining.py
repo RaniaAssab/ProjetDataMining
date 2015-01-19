@@ -120,19 +120,22 @@ def CAH(k,data,param,liste_id):
     return classes
 
 DProt = chargement_DWH()
-
 # clustering en fonction de la nature de la chaine
+print "clustering en fonction de la nature de la chaine "
 critere_CN = {}
-critere_FN = []
 for id_prot in DProt :
     if DProt[id_prot]['chainNature'] not in critere_CN.keys() :
         critere_CN[DProt[id_prot]['chainNature']] = []                # on initialise une liste vide pour chaque valeur de ChaineNature
     critere_CN[DProt[id_prot]['chainNature']].append(id_prot)            # on ajoute la proteine (definit par son identifiant) dans le dico correspondant a sa valeur de chaineNature
 
 # clustering en fonction de la localisation subcellulaire
+print "\n clustering en fonction de la localisation subcellulaire"
 critere_SCL = {}
-k = 10 # fixé arbitrairement
 for chainNat in critere_CN :
+    k=1
+    if len(critere_CN[chainNat])/100 > 0:
+        k = len(critere_CN[chainNat])/100 # fixé arbitrairement
+    print "groupe ",chainNat
     liste_id = []
     for id_prot in critere_CN[chainNat]:
         liste_id.append(id_prot)
@@ -140,49 +143,64 @@ for chainNat in critere_CN :
 # vider critere_CN
 
 # clustering en fonction des interractants
+print "\n clustering en fonction des interractants"
 critere_I = {}
 k = 10 # fixé arbitrairement
 for chainNat in critere_SCL :
+    critere_I[chainNat]=[]
     for i in range (len(critere_SCL[chainNat])): # parcours clusters subcellulaires
+        k=1
+        if len(critere_CN[chainNat])/10 > 0:
+            k = len(critere_CN[chainNat])/10 # fixé arbitrairement
         liste_id = []
         for id_prot in critere_SCL[chainNat][i]:
             liste_id.append(id_prot)
-        critere_I[chainNat][i] = CAH(k,DProt,"interactants",liste_id)
+        critere_I[chainNat].append(CAH(k,DProt,"interactants",liste_id))
 # vider critere_SCL
 
 #clustering en fonction de la localisation tissulaire
+print "clustering en fonction de la localisation tissulaire"
 critere_TL = {}
 k = 10 # fixé arbitrairement
 for chainNat in critere_I :
+    critere_TL[chainNat]=[]
     for i in range (len(critere_I[chainNat])): #parcours clusters subcellulaires
+        listeTMP=[]
+        critere_TL[chainNat].append(listeTMP)
         for j in range (len(critere_I[chainNat][i])): # parcours clusters interractants
             liste_id = []
             for id_prot in critere_SCL[chainNat][i]:
                 liste_id.append(id_prot)
-            critere_TL[chainNat][i][j] = CAH(k,DProt,"tissularLocation",liste_id)
+            critere_TL[chainNat][i].append(CAH(k,DProt,"tissularLocation",liste_id))
 # vider critere_I
 
+#clustering en fonction de la famille protéique
+print "clustering en fonction de la famille protéique"
 critere_FP = {}
 k = 10 # fixé arbitrairement
 for chainNat in critere_TL :
+    critere_FP[chainNat]=[]
     for i in range (len(critere_TL[chainNat])): #parcours clusters subcellulaires
+        listeTMP1=[]
+        critere_FP[chainNat].append(listeTMP1)
         for j in range (len(critere_TL[chainNat][i])): # parcours clusters interractants
+            listeTMP2=[]
+            critere_FP[chainNat][i].append(listeTMP2)
             for k in range (len(critere_TL[chainNat][i][j])): # parcours clusters tissulaires
-                critere_FP[chainNat][i][j][k]={}
+                dicoTMP={}
+                critere_FP[chainNat][i][j].append(dicoTMP)
                 for id_prot in critere_TL[chainNat][i][j][k] :
-                    if DProt[id_prot]['familyName'] not in critere_FP[chainNat][i][j].keys() :
-                        critere_FP[chainNat][i][j][DProt[id_prot]['familyName']] = []
+                    if DProt[id_prot]['familyName'] not in critere_FP[chainNat][i][j][k].keys() :
+                        critere_FP[chainNat][i][j][k][DProt[id_prot]['familyName']]=[]
                     critere_FP[chainNat][i][j][k][DProt[id_prot]['familyName']].append(id_prot)     # meme principe : ajout de l'id de la prot dans le dico correspondant a sa valeur de familyname
-
 
 # test d'affichage des clusters
 for nature in critere_FP :
-    for loc_cel in nature :
+    for loc_cel in critere_FP[nature] :
         for interactant in loc_cel :
             for loc_tissu in interactant :
                 for famille in loc_tissu :
-                    for el in famille:
-                        print el
-                    print "\n"
+                    print loc_tissu[famille]
+                print "\n"
 
-fic.close()
+
