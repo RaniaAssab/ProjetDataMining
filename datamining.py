@@ -6,7 +6,7 @@ from time import *
 ###############################################################################################
 
 def chargement_DWH():
-    fic = open("DataWareHouse_part.csv", "r")
+    fic = open("DataWareHouse.csv", "r")
     lines = iter(fic.read().splitlines())
     next(lines)  # skip first line
     DProt = {}
@@ -76,10 +76,8 @@ def distance(liste_id1,liste_id2,data,param):
             if value1 == value2:
                 similarite = similarite +1
                 break
-    max_len = len(data[id1][param])
-    if len(data[id1][param]) < len(data[id2][param]):
-        max_len = len(data[id2][param])
-    distance = (float(max_len) - float(similarite)) / float(max_len)
+    p = len(data[id1][param])+len(data[id2][param])
+    distance = (float(p) - float(similarite)) / float(p)
     return distance
     
 def minimum(matrice):
